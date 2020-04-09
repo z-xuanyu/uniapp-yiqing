@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationStyle": "custom"
+  },
+  "usingComponents": {
+    "cu-custom": "/colorui/components/cu-custom",
+    "v-map": "/components/map",
+    "real": "/components/real",
+    "rumor": "/components/rumor",
+    "virus": "/components/virus"
+  },
+  "sitemapLocation": "sitemap.json"
+}
