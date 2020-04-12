@@ -10,7 +10,7 @@
 			<!-- 顶部导航 -->
 			<cu-custom bgColor="bg-blue" :isBack="false"><block slot="content">辟谣</block></cu-custom>
 			<!-- bannere -->
-			<image src="https://ncov.zhouxuanyu.com/images/rumor.jpg" mode="widthFix" style="width: 100%;"></image>
+			<image src="https://img1.dxycdn.com/2020/0314/863/3401956761707181858-2.png" mode="widthFix" style="width: 100%;"></image>
 			<!-- 最新辟谣 -->
 			<view class="cu-bar margin-top-sm margin-lr-sm radius shadow bg-white">
 				<view class="action sub-title">
@@ -36,9 +36,9 @@
 						<text>分享</text>
 					</button>
 				</view>
-				<image v-if="item.rumorType == 0" src="https://ncov.zhouxuanyu.com/images/false@3x.02069c64.png" mode="widthFix"></image>
-				<image v-if="item.rumorType == 1" src="https://ncov.zhouxuanyu.com/images/true@3x.d2f5c6ba.png" mode="widthFix"></image>
-				<image v-if="item.rumorType == 2" src="https://ncov.zhouxuanyu.com/images/unknown@3x.7636fb34.png" mode="widthFix"></image>
+				<image v-if="item.rumorType == 0" src="http://assets.dxycdn.com/gitrepo/ncov-mobile/dist/static/false@3x.02069c64.png" mode="widthFix"></image>
+				<image v-if="item.rumorType == 1" src="http://assets.dxycdn.com/gitrepo/ncov-mobile/dist/static/true@3x.d2f5c6ba.png" mode="widthFix"></image>
+				<image v-if="item.rumorType == 2" src="http://assets.dxycdn.com/gitrepo/ncov-mobile/dist/static/unknown@3x.7636fb34.png" mode="widthFix"></image>
 			</view>
 			<!-- 底部查看谣言排行榜 -->
 			<view class="flex justify-between">
@@ -74,7 +74,7 @@ export default {
 		getData() {
 			uni.request({
 				method: 'GET',
-				url: 'https://ncov.zhouxuanyu.com/RumorList',
+				url: 'http://121.42.14.221:3002/RumorList',
 				success: res => {
 					setTimeout(() => {
 						this.loading = true;

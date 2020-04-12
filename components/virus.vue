@@ -85,7 +85,7 @@ export default {
 		getData() {
 			uni.request({
 				method: 'GET',
-				url: 'https://ncov.zhouxuanyu.com/WikiList',
+				url: 'http://121.42.14.221:3002/WikiList',
 				success: res => {
 					this.data = res.data.result.slice(1);
 				}
@@ -93,7 +93,7 @@ export default {
 			// 获取防护知识数据
 			uni.request({
 				method: 'GET',
-				url: 'https://ncov.zhouxuanyu.com/fanghu',
+				url: 'http://121.42.14.221:3002/fanghu',
 				success: res => {
 					setTimeout(() => {
 						this.loading = true;

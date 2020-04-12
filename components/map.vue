@@ -11,7 +11,7 @@
 			<!-- 顶部导航 -->
 			<cu-custom bgColor="bg-blue" :isBack="false"><block slot="content">疫情地图</block></cu-custom>
 			<!-- banner -->
-			<image src="https://ncov.zhouxuanyu.com/images/map_banner.png" mode="widthFix" style="width: 100%;"></image>
+			<image src="https://img1.dxycdn.com/2020/0314/863/3401956761707181858-2.png" mode="widthFix" style="width: 100%;"></image>
 			<!-- 数据标题 -->
 			<view class="data-statement flex justify-between">
 				<view class="statement-title">
@@ -184,7 +184,7 @@ export default {
 		getData() {
 			uni.request({
 				method: 'GET',
-				url: 'https://ncov.zhouxuanyu.com/Statistics',
+				url: 'http://121.42.14.221:3002/Statistics',
 				success: res => {
 					setTimeout(() => {
 						this.loadiing = true;
@@ -218,7 +218,7 @@ export default {
 		getTableData() {
 			uni.request({
 				method: 'GET',
-				url: 'https://ncov.zhouxuanyu.com/cities',
+				url: 'http://121.42.14.221:3002/cities',
 				success: res => {
 					res.data.newslist.map(item => {
 						item.isShowCities = false;
@@ -239,7 +239,7 @@ export default {
 					cMap.series = res.data.features;
 					uni.request({
 						method: 'GET',
-						url:"https://ncov.zhouxuanyu.com/cities",
+						url:"http://121.42.14.221:3002/cities",
 						dataType: 'json',
 						success: res => {
 							let datas = res.data.newslist;

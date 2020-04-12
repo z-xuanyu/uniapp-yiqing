@@ -9,7 +9,7 @@
 		<view v-if="loading">
 			<!-- 顶部导航 -->
 			<cu-custom bgColor="bg-blue" :isBack="false"><block slot="content">实时数据</block></cu-custom>
-			<image src="https://ncov.zhouxuanyu.com/images/dongtai.png" mode="widthFix" style="width: 100%;"></image>
+			<image src="https://img1.dxycdn.com/2020/0314/863/3401956761707181858-2.png" mode="widthFix" style="width: 100%;"></image>
 			<!-- 实时播放 -->
 			<view class="cu-bar bg-white">
 				<view class="action">
@@ -51,7 +51,7 @@ export default {
 		getData() {
 			uni.request({
 				method: 'GET',
-				url: 'https://ncov.zhouxuanyu.com/Timeline',
+				url: 'http://121.42.14.221:3002/Timeline',
 				success: res => {
 					setTimeout(() => {
 						this.loading = true
