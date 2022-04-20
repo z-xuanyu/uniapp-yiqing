@@ -126,6 +126,7 @@
 <script>
 import uCharts from './u-charts/u-charts.js';
 import vSwiper from './v-swiper.vue';
+import { getStatistics, getCities } from "../api/index.js"
 let _self;
 let canvaMap = null;
 export default {
@@ -181,27 +182,20 @@ export default {
 		this.getServerData();
 	},
 	methods: {
-		getData() {
-			uni.request({
-				method: 'GET',
-				url: 'http://121.42.14.221:3002/Statistics',
-				success: res => {
-					setTimeout(() => {
-						this.loadiing = true;
-					});
-					this.dataed[0].num = res.data.confirmedCount; //现确诊数
-					this.dataed[0].num_sub = res.data.confirmedIncr; //较比昨天增长数
-					this.dataed[1].num = res.data.suspectedCount; //疑诊数
-					this.dataed[1].num_sub = res.data.suspectedIncr; //较比昨天疑诊增加数
-					this.dataed[2].num = res.data.deadCount; //死亡数
-					this.dataed[2].num_sub = res.data.deadIncr; //较昨天死亡增加数
-					this.dataed[3].num = res.data.curedCount; //治愈人数
-					this.dataed[3].num_sub = res.data.curedIncr; //较比昨天治愈人数增长数
-					// 走势图
-					this.quanguoTrendChart = res.data.quanguoTrendChart; //全国疫情走势图
-					this.hbFeiHbTrendChart = res.data.hbFeiHbTrendChart; //湖北疫情走势图
-				}
-			});
+		async getData() {
+		    const res = await getStatistics();
+			this.dataed[0].num = res.confirmedCount; //现确诊数
+			this.dataed[0].num_sub = res.confirmedIncr; //较比昨天增长数
+			this.dataed[1].num = res.suspectedCount; //疑诊数
+			this.dataed[1].num_sub = res.suspectedIncr; //较比昨天疑诊增加数
+			this.dataed[2].num = res.deadCount; //死亡数
+			this.dataed[2].num_sub = res.deadIncr; //较昨天死亡增加数
+			this.dataed[3].num = res.curedCount; //治愈人数
+			this.dataed[3].num_sub = res.curedIncr; //较比昨天治愈人数增长数
+			// 走势图
+			this.quanguoTrendChart = res.quanguoTrendChart; //全国疫情走势图
+			this.hbFeiHbTrendChart = res.hbFeiHbTrendChart; //湖北疫情走势图
+			this.loadiing = true;
 		},
 		// 显示数据说明的弹出层
 		showModal(e) {
@@ -215,18 +209,14 @@ export default {
 			this.areaTableData[index].isShowCities = !this.areaTableData[index].isShowCities;
 		},
 		// 请求获取疫情地区表单数据
-		getTableData() {
-			uni.request({
-				method: 'GET',
-				url: 'http://121.42.14.221:3002/cities',
-				success: res => {
-					res.data.newslist.map(item => {
-						item.isShowCities = false;
-						return item;
-					});
-					this.areaTableData = res.data.newslist;
-				}
+		async getTableData() {
+			const res = await getCities();
+			console.log(res, 5544441)
+			res.newslist.map(item => {
+				item.isShowCities = false;
+				return item;
 			});
+			this.areaTableData = res.newslist;
 		},
 		// 获取疫情地球数据
 		async getServerData() {
@@ -235,30 +225,22 @@ export default {
 				url: 'https://www.zhouxuanyu.com/map.json',
 				dataType: 'json',
 				header: { 'content-type': 'application/x-www-form-urlencoded' },
-				success: function(res) {
+				success: async function(res) {
 					cMap.series = res.data.features;
-					uni.request({
-						method: 'GET',
-						url:"http://121.42.14.221:3002/cities",
-						dataType: 'json',
-						success: res => {
-							let datas = res.data.newslist;
-							let series = cMap.series.map(province => {
-								for (var i = 0; i < datas.length; i++) {
-									if (datas[i].provinceName === province.properties.name) {
-										return { ...province, ...datas[i] };
-									}
-								}
-								return province;
-							});
-							cMap.series = series;
-							_self.$nextTick(() => {
-								_self.showMap('canvasMap', cMap);
-							});
-						},
-						fail: () => {
-							_self.tips = '网络错误，小程序端请检查合法域名';
+					
+					const citiesData = await getCities();
+					let datas = citiesData.newslist;
+					let series = cMap.series.map(province => {
+						for (var i = 0; i < datas.length; i++) {
+							if (datas[i].provinceName === province.properties.name) {
+								return { ...province, ...datas[i] };
+							}
 						}
+						return province;
+					});
+					cMap.series = series;
+					_self.$nextTick(() => {
+						_self.showMap('canvasMap', cMap);
 					});
 				},
 				fail: () => {

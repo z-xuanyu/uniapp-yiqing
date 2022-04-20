@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { getTimeline } from "../api/index.js"
 export default {
 	data() {
 		return {
@@ -48,17 +49,12 @@ export default {
 		this.getData();
 	},
 	methods: {
-		getData() {
-			uni.request({
-				method: 'GET',
-				url: 'http://121.42.14.221:3002/Timeline',
-				success: res => {
-					setTimeout(() => {
-						this.loading = true
-					}, 500);
-					this.newData = res.data;
-				}
-			});
+		async getData() {
+			const res = await getTimeline();
+			this.newData = res;
+			setTimeout(() => {
+				this.loading = true
+			}, 500);
 		}
 	}
 };

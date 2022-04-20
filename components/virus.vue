@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { getWikiList, getFanghuData } from "../api/index.js"
 export default {
 	data() {
 		return {
@@ -82,25 +83,15 @@ export default {
 		this.getData();
 	},
 	methods: {
-		getData() {
-			uni.request({
-				method: 'GET',
-				url: 'http://121.42.14.221:3002/WikiList',
-				success: res => {
-					this.data = res.data.result.slice(1);
-				}
-			});
+		async getData() {
+			const res = await getWikiList()
+			this.data = res.result.slice(1);
 			// 获取防护知识数据
-			uni.request({
-				method: 'GET',
-				url: 'http://121.42.14.221:3002/fanghu',
-				success: res => {
-					setTimeout(() => {
-						this.loading = true;
-					}, 500);
-					this.recommendListr = res.data;
-				}
-			});
+			const res1 = await getFanghuData();
+			this.recommendListr = res1;
+			setTimeout(() => {
+				this.loading = true;
+			}, 500);
 		}
 	}
 };

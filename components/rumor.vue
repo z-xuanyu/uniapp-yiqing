@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { getRumorList } from "../api/index.js"
 export default {
 	data() {
 		return {
@@ -71,22 +72,16 @@ export default {
 		this.getData();
 	},
 	methods: {
-		getData() {
-			uni.request({
-				method: 'GET',
-				url: 'http://121.42.14.221:3002/RumorList',
-				success: res => {
-					setTimeout(() => {
-						this.loading = true;
-					}, 500);
-					res.data.map(item => {
-						item.isShow = false;
-						return item;
-					});
-					this.dataList = res.data;
-					console.log(this.dataList);
-				}
+		async getData() {
+			const res = await getRumorList();
+			res.map(item => {
+				item.isShow = false;
+				return item;
 			});
+			this.dataList = res;
+			setTimeout(() => {
+				this.loading = true;
+			}, 500);
 		},
 		cardContentShow(index) {
 			this.dataList[index].isShow = !this.dataList[index].isShow;
